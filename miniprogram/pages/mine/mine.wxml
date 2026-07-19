@@ -1,0 +1,29 @@
+<view class="mine">
+  <view class="profile">
+    <view class="avatar">📝</view>
+    <view class="name">WuWeBlog</view>
+    <view class="desc">我的个人博客</view>
+  </view>
+
+  <view class="card entry" wx:if="{{!logged}}">
+    <view class="entry-title">博主入口</view>
+    <view class="entry-tip">输入访问码进入管理端</view>
+    <input class="code-input" password placeholder="请输入访问码" value="{{code}}" bindinput="onInput" confirm-type="done" bindconfirm="onVerify" />
+    <button class="btn-primary block" bindtap="onVerify">验 证</button>
+    <view wx:if="{{error}}" class="error">{{error}}</view>
+  </view>
+
+  <view class="card entry" wx:else>
+    <view class="entry-title">已登录管理端</view>
+    <button class="btn-primary block" bindtap="onEnterAdmin">进入管理端</button>
+    <button class="btn-ghost block" bindtap="onLogout">退出登录</button>
+  </view>
+
+  <view class="about">
+    <view class="section-title">关于</view>
+    <view class="card about-card">
+      <view class="about-row">基于微信云开发构建</view>
+      <view class="about-row">数据存于云数据库，免服务器运维</view>
+    </view>
+  </view>
+</view>

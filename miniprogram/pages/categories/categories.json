@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "tag-list": "/components/tag-list/tag-list"
+  },
+  "navigationBarTitleText": "分类"
+}

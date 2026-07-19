@@ -1,0 +1,19 @@
+/* 主题变量（小程序支持 CSS 变量） */
+page {
+  --color-primary: #3B6E8F;
+  --color-primary-light: #5B8FB0;
+  --bg-page: #F7F8FA;
+  --bg-card: #FFFFFF;
+  --text-main: #1F2329;
+  --text-sub: #8A9099;
+  --color-success: #2BA471;
+  --color-danger: #D54941;
+  --radius: 16rpx;
+  --shadow: 0 4rpx 20rpx rgba(31, 35, 41, 0.06);
+
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  font-family: "PingFang SC", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 28rpx;
+  line-height: 1.6;
+}

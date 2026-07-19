@@ -1,0 +1,160 @@
+.admin {
+  min-height: 100vh;
+  background: var(--bg-page);
+}
+.tabs {
+  display: flex;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 28rpx 0;
+  font-size: 28rpx;
+  color: var(--text-sub);
+  position: relative;
+}
+.tab.active {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.tab.active::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 48rpx;
+  height: 6rpx;
+  border-radius: 6rpx;
+  background: var(--color-primary);
+}
+.pane {
+  padding: 24rpx;
+}
+.item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+.item-main {
+  flex: 1;
+  min-width: 0;
+}
+.item-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-main);
+}
+.item-sub {
+  font-size: 22rpx;
+  color: var(--text-sub);
+  margin-top: 8rpx;
+}
+.item-actions {
+  display: flex;
+  gap: 24rpx;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+.act {
+  font-size: 26rpx;
+  color: var(--color-primary);
+}
+.act.danger {
+  color: var(--color-danger);
+}
+.editor-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+}
+.editor {
+  width: 100%;
+  height: 92vh;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.editor-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+.editor-title {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+.close {
+  font-size: 36rpx;
+  color: var(--text-sub);
+  padding: 0 12rpx;
+}
+.editor-body {
+  flex: 1;
+  padding: 24rpx 32rpx;
+}
+.field {
+  margin-bottom: 28rpx;
+}
+.label {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-sub);
+  margin-bottom: 12rpx;
+}
+.input,
+.picker,
+.textarea {
+  width: 100%;
+  background: #f4f5f7;
+  border-radius: 12rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+}
+.picker {
+  color: var(--text-main);
+}
+.textarea {
+  height: 320rpx;
+}
+.cover-row {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+.cover-prev {
+  width: 140rpx;
+  height: 100rpx;
+  border-radius: 12rpx;
+  background: #eee;
+}
+.editor-foot {
+  display: flex;
+  gap: 20rpx;
+  padding: 20rpx 32rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+.editor-foot .btn-primary,
+.editor-foot .btn-ghost {
+  flex: 1;
+}
+.cat-dialog {
+  margin: auto;
+  width: 86%;
+  padding: 32rpx;
+}

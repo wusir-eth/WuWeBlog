@@ -1,0 +1,25 @@
+<view class="cat-result">
+  <view class="filter-bar">
+    <text class="filter-label">筛选</text>
+    <text class="filter-value">{{title}}</text>
+    <text class="filter-count">共 {{articles.length}} 篇</text>
+  </view>
+
+  <view class="list">
+    <article-card
+      wx:for="{{articles}}"
+      wx:key="_id"
+      id="{{item._id}}"
+      title="{{item.title}}"
+      summary="{{item.summary}}"
+      coverImage="{{item.coverImage}}"
+      categoryName="{{item.categoryName}}"
+      tags="{{item.tags}}"
+      views="{{item.views}}"
+      bind:tap="onArticleTap"
+    />
+  </view>
+
+  <view class="empty" wx:if="{{!loading && !articles.length}}">该条件下还没有文章</view>
+  <view class="nomore" wx:if="{{!loading && articles.length && !hasMore}}">— 没有更多了 —</view>
+</view>

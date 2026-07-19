@@ -1,0 +1,30 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/categories/categories",
+    "pages/mine/mine",
+    "pages/category/category",
+    "pages/detail/detail",
+    "pages/admin/admin"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "WuWeBlog",
+    "backgroundColor": "#F7F8FA",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "color": "#8A9099",
+    "selectedColor": "#3B6E8F",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "首页" },
+      { "pagePath": "pages/categories/categories", "text": "分类" },
+      { "pagePath": "pages/mine/mine", "text": "我的" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

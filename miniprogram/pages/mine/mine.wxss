@@ -1,0 +1,65 @@
+.mine {
+  padding: 32rpx 28rpx;
+}
+.profile {
+  text-align: center;
+  padding: 40rpx 0 32rpx;
+}
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  line-height: 120rpx;
+  font-size: 60rpx;
+  border-radius: 50%;
+  background: #eef3f7;
+  margin: 0 auto;
+}
+.name {
+  font-size: 34rpx;
+  font-weight: 700;
+  margin-top: 16rpx;
+  color: var(--text-main);
+}
+.desc {
+  font-size: 24rpx;
+  color: var(--text-sub);
+  margin-top: 6rpx;
+}
+.entry {
+  padding: 32rpx 28rpx;
+  margin-top: 16rpx;
+}
+.entry-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 8rpx;
+}
+.entry-tip {
+  font-size: 24rpx;
+  color: var(--text-sub);
+  margin-bottom: 20rpx;
+}
+.code-input {
+  background: #f4f5f7;
+  border-radius: 12rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+  margin-bottom: 20rpx;
+}
+.error {
+  color: var(--color-danger);
+  font-size: 24rpx;
+  margin-top: 16rpx;
+  text-align: center;
+}
+.about {
+  margin-top: 40rpx;
+}
+.about-card {
+  padding: 24rpx 28rpx;
+}
+.about-row {
+  font-size: 26rpx;
+  color: var(--text-sub);
+  padding: 10rpx 0;
+}

@@ -1,0 +1,94 @@
+<view class="admin">
+  <view class="tabs">
+    <view class="tab {{tab==='articles'?'active':''}}" data-tab="articles" bindtap="switchTab">文章</view>
+    <view class="tab {{tab==='categories'?'active':''}}" data-tab="categories" bindtap="switchTab">分类</view>
+  </view>
+
+  <view wx:if="{{tab==='articles'}}" class="pane">
+    <button class="btn-primary block" bindtap="onNewArticle">+ 新建文章</button>
+    <view class="item card" wx:for="{{articles}}" wx:key="_id">
+      <view class="item-main">
+        <view class="item-title ellipsis-1">{{item.title}}</view>
+        <view class="item-sub">{{item.status === 'published' ? '已发布' : '草稿'}} · 👁 {{item.views}}</view>
+      </view>
+      <view class="item-actions">
+        <text class="act" data-id="{{item._id}}" bindtap="onEditArticle">编辑</text>
+        <text class="act danger" data-id="{{item._id}}" bindtap="onDeleteArticle">删除</text>
+      </view>
+    </view>
+    <view wx:if="{{!articles.length}}" class="empty">还没有文章</view>
+  </view>
+
+  <view wx:if="{{tab==='categories'}}" class="pane">
+    <button class="btn-primary block" bindtap="onNewCategory">+ 新增分类</button>
+    <view class="item card" wx:for="{{categories}}" wx:key="_id">
+      <view class="item-main">
+        <view class="item-title ellipsis-1">{{item.name}}</view>
+        <view class="item-sub">排序 {{item.order}}</view>
+      </view>
+      <view class="item-actions">
+        <text class="act" data-id="{{item._id}}" data-name="{{item.name}}" data-order="{{item.order}}" bindtap="onEditCategory">编辑</text>
+        <text class="act danger" data-id="{{item._id}}" bindtap="onDeleteCategory">删除</text>
+      </view>
+    </view>
+    <view wx:if="{{!categories.length}}" class="empty">还没有分类</view>
+  </view>
+
+  <view wx:if="{{showEditor}}" class="editor-mask">
+    <view class="editor">
+      <view class="editor-head">
+        <text class="editor-title">{{editingId ? '编辑文章' : '新建文章'}}</text>
+        <text class="close" bindtap="closeEditor">✕</text>
+      </view>
+      <scroll-view scroll-y class="editor-body">
+        <view class="field">
+          <text class="label">标题</text>
+          <input class="input" value="{{form.title}}" data-field="title" bindinput="onFormInput" placeholder="文章标题" />
+        </view>
+        <view class="field">
+          <text class="label">分类</text>
+          <picker mode="selector" range="{{categories}}" range-key="name" value="{{catIndex}}" bindchange="onCatChange">
+            <view class="picker">{{catIndex >= 0 ? categories[catIndex].name : '选择分类（可空）'}}</view>
+          </picker>
+        </view>
+        <view class="field">
+          <text class="label">标签（逗号分隔）</text>
+          <input class="input" value="{{form.tagsText}}" data-field="tagsText" bindinput="onFormInput" placeholder="如：生活,随笔" />
+        </view>
+        <view class="field">
+          <text class="label">封面</text>
+          <view class="cover-row">
+            <image wx:if="{{form.coverImage}}" class="cover-prev" src="{{form.coverImage}}" mode="aspectFill" />
+            <button class="btn-ghost sm" bindtap="onChooseCover">{{form.coverImage ? '更换封面' : '选择封面'}}</button>
+          </view>
+        </view>
+        <view class="field">
+          <text class="label">正文（支持 HTML）</text>
+          <textarea class="textarea" value="{{form.content}}" data-field="content" bindinput="onFormInput" placeholder="在此输入正文，可包含 HTML 标签如 <p> <img>" maxlength="-1" />
+        </view>
+      </scroll-view>
+      <view class="editor-foot">
+        <button class="btn-ghost" bindtap="onSaveDraft">存草稿</button>
+        <button class="btn-primary" bindtap="onPublish">发布</button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{showCatEditor}}" class="editor-mask">
+    <view class="cat-dialog card">
+      <view class="editor-head">
+        <text class="editor-title">{{editingCatId ? '编辑分类' : '新增分类'}}</text>
+        <text class="close" bindtap="closeCatEditor">✕</text>
+      </view>
+      <view class="field">
+        <text class="label">名称</text>
+        <input class="input" value="{{catForm.name}}" data-field="name" bindinput="onCatInput" placeholder="分类名称" />
+      </view>
+      <view class="field">
+        <text class="label">排序（数字越小越靠前）</text>
+        <input class="input" type="number" value="{{catForm.order}}" data-field="order" bindinput="onCatInput" placeholder="0" />
+      </view>
+      <button class="btn-primary block" bindtap="onSaveCategory">保存</button>
+    </view>
+  </view>
+</view>

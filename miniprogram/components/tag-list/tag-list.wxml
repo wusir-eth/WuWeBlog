@@ -1,0 +1,9 @@
+<view class="tag-list">
+  <text
+    wx:for="{{tags}}"
+    wx:key="*this"
+    class="tag-pill"
+    data-tag="{{item}}"
+    bindtap="onTap"
+  >{{item}}</text>
+</view>

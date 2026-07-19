@@ -1,0 +1,12 @@
+<view class="card article-card" bindtap="onTap" hover-class="card-hover">
+  <image wx:if="{{coverImage}}" class="cover" src="{{coverImage}}" mode="aspectFill" />
+  <view class="body">
+    <view class="title ellipsis-1">{{title}}</view>
+    <view wx:if="{{summary}}" class="summary ellipsis-2">{{summary}}</view>
+    <view class="meta">
+      <text wx:if="{{categoryName}}" class="cat">{{categoryName}}</text>
+      <text wx:for="{{tags}}" wx:key="*this" class="tag">{{item}}</text>
+      <text class="views">👁 {{views}}</text>
+    </view>
+  </view>
+</view>

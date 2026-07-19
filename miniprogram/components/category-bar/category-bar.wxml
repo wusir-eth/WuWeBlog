@@ -1,0 +1,10 @@
+<scroll-view scroll-x class="cat-bar" enhanced show-scrollbar="{{false}}">
+  <view class="cat-item {{active === '' ? 'active' : ''}}" data-id="" bindtap="onSelect">全部</view>
+  <view
+    wx:for="{{list}}"
+    wx:key="_id"
+    class="cat-item {{active === item._id ? 'active' : ''}}"
+    data-id="{{item._id}}"
+    bindtap="onSelect"
+  >{{item.name}}</view>
+</scroll-view>

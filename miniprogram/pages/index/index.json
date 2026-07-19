@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "article-card": "/components/article-card/article-card",
+    "category-bar": "/components/category-bar/category-bar",
+    "tag-list": "/components/tag-list/tag-list"
+  },
+  "enablePullDownRefresh": true,
+  "navigationBarTitleText": "WuWeBlog"
+}

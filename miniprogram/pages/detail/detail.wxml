@@ -1,0 +1,28 @@
+<view class="detail" wx:if="{{article}}">
+  <view class="head">
+    <view class="title">{{article.title}}</view>
+    <view class="meta">
+      <text wx:if="{{categoryName}}" class="cat">{{categoryName}}</text>
+      <text class="date">{{date}}</text>
+      <text class="views">👁 {{article.views}}</text>
+    </view>
+  </view>
+
+  <view class="content">
+    <rich-text nodes="{{article.content}}"></rich-text>
+  </view>
+
+  <view class="tags" wx:if="{{article.tags.length}}">
+    <text
+      wx:for="{{article.tags}}"
+      wx:key="*this"
+      class="tag-pill"
+      data-tag="{{item}}"
+      bindtap="onTagTap"
+    >#{{item}}</text>
+  </view>
+
+  <view class="back-top" wx:if="{{showTop}}" bindtap="onBackTop">↑</view>
+</view>
+
+<view class="empty" wx:else>文章不存在或已下架</view>

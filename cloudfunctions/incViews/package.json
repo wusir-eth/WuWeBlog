@@ -1,0 +1,9 @@
+{
+  "name": "incViews",
+  "version": "1.0.0",
+  "description": "阅读量自增",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

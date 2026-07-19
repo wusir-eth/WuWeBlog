@@ -1,0 +1,21 @@
+<view class="cat-page">
+  <view class="section-title">全部分类</view>
+  <view class="cat-grid">
+    <view
+      class="cat-cell"
+      wx:for="{{categories}}"
+      wx:key="_id"
+      data-id="{{item._id}}"
+      data-name="{{item.name}}"
+      bindtap="onCategoryTap"
+      hover-class="cat-cell-hover"
+    >
+      <text class="cat-name">{{item.name}}</text>
+    </view>
+    <view wx:if="{{!categories.length}}" class="empty">暂无分类</view>
+  </view>
+
+  <view class="section-title" style="margin-top:40rpx;">热门标签</view>
+  <tag-list tags="{{hotTags}}" bind:select="onTagSelect" />
+  <view wx:if="{{!hotTags.length}}" class="empty">暂无标签</view>
+</view>
