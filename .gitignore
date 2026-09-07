@@ -2,8 +2,12 @@
 miniprogram_npm/
 node_modules/
 
+# 本地密钥配置（含访问码，切勿提交）
+cloudfunctions/*/config.local.json
+
 # 云函数依赖
 cloudfunctions/*/node_modules/
+cloudfunctions/*/package-lock.json
 
 # 开发者工具生成
 .project.config.json

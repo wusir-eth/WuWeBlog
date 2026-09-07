@@ -25,4 +25,5 @@
   <view class="back-top" wx:if="{{showTop}}" bindtap="onBackTop">↑</view>
 </view>
 
+<view class="loading" wx:elif="{{loading}}">加载中…</view>
 <view class="empty" wx:else>文章不存在或已下架</view>

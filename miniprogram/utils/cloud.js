@@ -29,6 +29,18 @@ function getCategoryById(id) {
   return db.collection(CATEGORIES).doc(id).get();
 }
 
+// 云函数获取文章详情（绕过安全规则，真机兼容）
+async function getArticleDetail(id) {
+  const res = await wx.cloud.callFunction({
+    name: 'getArticleDetail',
+    data: { id }
+  });
+  if (!res.result.ok) {
+    throw new Error(res.result.msg || '文章不存在或已下架');
+  }
+  return { data: res.result.data };
+}
+
 // 通用云函数调用
 function callFunction(name, data = {}) {
   return wx.cloud.callFunction({ name, data });
@@ -40,6 +52,7 @@ module.exports = {
   CATEGORIES,
   getArticles,
   getArticleById,
+  getArticleDetail,
   getCategories,
   getCategoryById,
   callFunction
