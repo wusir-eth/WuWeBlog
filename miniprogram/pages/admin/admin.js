@@ -30,7 +30,7 @@ Page({
   },
 
   async loadArticles() {
-    const res = await cloud.callFunction('listArticles', { token: auth.getToken() });
+    const res = await cloud.callFunction('listArticles', {});
     if (res.result && res.result.ok) {
       this.setData({ articles: res.result.list });
     }
@@ -129,7 +129,8 @@ Page({
     if (editingId) article._id = editingId;
     wx.showLoading({ title: '发布中…首次稍慢' });
     try {
-      const res = await cloud.callFunction('publish', { token: auth.getToken(), article });
+      const res = await cloud.callFunction('publish', { article });
+      wx.hideLoading();
       if (res.result && res.result.ok) {
         wx.showToast({ title: '已保存', icon: 'success' });
         this.setData({ showEditor: false });
@@ -138,10 +139,9 @@ Page({
         wx.showToast({ title: (res.result && res.result.msg) || '失败', icon: 'none' });
       }
     } catch (e) {
+      wx.hideLoading();
       console.error('发布失败', e);
       wx.showToast({ title: '发布异常：' + (e.errMsg || '云函数错误'), icon: 'none' });
-    } finally {
-      wx.hideLoading();
     }
   },
 
@@ -161,7 +161,7 @@ Page({
       success: async (r) => {
         if (!r.confirm) return;
         wx.showLoading({ title: '删除中' });
-        const res = await cloud.callFunction('removeArticle', { token: auth.getToken(), id });
+        const res = await cloud.callFunction('removeArticle', { id });
         wx.hideLoading();
         if (res.result && res.result.ok) {
           wx.showToast({ title: '已删除', icon: 'success' });
@@ -174,7 +174,7 @@ Page({
   },
 
   async loadCategories() {
-    const res = await cloud.callFunction('manageCategory', { token: auth.getToken(), action: 'list' });
+    const res = await cloud.callFunction('manageCategory', { action: 'list' });
     if (res.result && res.result.ok) {
       this.setData({ categories: res.result.list });
     }
@@ -219,7 +219,6 @@ Page({
     if (editingCatId) category._id = editingCatId;
     wx.showLoading({ title: '保存中' });
     const res = await cloud.callFunction('manageCategory', {
-      token: auth.getToken(),
       action: editingCatId ? 'update' : 'add',
       category
     });
@@ -242,7 +241,6 @@ Page({
         if (!r.confirm) return;
         wx.showLoading({ title: '删除中' });
         const res = await cloud.callFunction('manageCategory', {
-          token: auth.getToken(),
           action: 'delete',
           category: { _id: id }
         });

@@ -48,6 +48,14 @@ image {
   font-size: 28rpx;
 }
 
+/* 加载中，与空状态同版式 */
+.loading {
+  text-align: center;
+  color: var(--text-sub);
+  padding: 120rpx 0;
+  font-size: 28rpx;
+}
+
 /* 按钮 */
 .btn-primary {
   background: var(--color-primary);

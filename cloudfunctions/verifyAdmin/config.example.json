@@ -1,0 +1,4 @@
+{
+  "_说明": "复制本文件为 config.local.json 并填入你自己的访问码。config.local.json 已被 .gitignore 排除，不会进入仓库，但会随云函数一起部署到云端。",
+  "adminCode": "PUT-YOUR-CODE-HERE"
+}

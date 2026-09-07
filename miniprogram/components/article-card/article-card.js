@@ -1,6 +1,6 @@
 Component({
   properties: {
-    id: String,
+    articleId: String,
     title: String,
     summary: String,
     coverImage: String,
@@ -10,7 +10,11 @@ Component({
   },
   methods: {
     onTap() {
-      this.triggerEvent('tap', { id: this.data.id });
+      // 真机 hover-class 可能导致 bindtap 触发两次，加节流
+      if (this._tapping) return;
+      this._tapping = true;
+      this.triggerEvent('tap', { id: this.data.articleId });
+      setTimeout(() => { this._tapping = false; }, 500);
     }
   }
 });

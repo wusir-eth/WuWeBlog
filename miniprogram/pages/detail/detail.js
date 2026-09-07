@@ -4,17 +4,32 @@ const { formatDate } = require('../../utils/format.js');
 Page({
   data: {
     article: null,
+    loading: true,
     categoryName: '',
     date: '',
     showTop: false
   },
 
+  // 防止 onLoad 被真机重复触发导致覆盖
+  _loaded: false,
+
   async onLoad(options) {
+    if (this._loaded) return;
     const id = options.id;
-    if (!id) return;
+    // 拒绝空值和字符串 "undefined"（真机可能传字符串）
+    // 不操作 UI，避免在首次异步返回前改 loading 导致闪现空状态
+    if (!id || id === 'undefined') {
+      this._loaded = true;
+      return;
+    }
     try {
-      const res = await cloud.getArticleById(id);
+      const res = await cloud.getArticleDetail(id);
       const a = res.data;
+      if (!a) {
+        this._loaded = true;
+        this.setData({ loading: false });
+        return;
+      }
       // 让富文本中的图片自适应宽度
       a.content = (a.content || '').replace(
         /<img/g,
@@ -29,14 +44,18 @@ Page({
       const views = a.views || 0;
       this.setData({
         article: a,
+        loading: false,
         categoryName,
         date: formatDate(a.createTime),
         'article.views': views + 1
       });
-      // 服务端原子自增阅读量
-      cloud.callFunction('incViews', { id });
+      this._loaded = true;
+      // 服务端原子自增阅读量（fire-and-forget，吞掉异常避免影响页面）
+      cloud.callFunction('incViews', { id }).catch(() => {});
     } catch (e) {
-      console.error('加载文章失败', e);
+      this._loaded = true;
+      this.setData({ loading: false });
+      console.error('[detail] 加载文章失败', e);
     }
   },
 

@@ -1,0 +1,147 @@
+================================================================================
+日期: 2026-09-06
+项目: WuWeBlog
+================================================================================
+[20:42] 新 MacBook Pro 环境搭建 —— 唯一缺的是微信开发者工具
+
+  新机器上 Node v24.20.0 / npm 12.0.2 / git 2.50.1 都在，Homebrew 也在。
+  全盘扫下来只缺微信开发者工具：/Applications 下只有 WeChat.app，没有
+  wechatwebdevtools.app。
+
+  ── 安装 ─────────────────────────────────────────────────────────────────
+    · brew install --cask wechatwebdevtools → 2.02.2608060 (darwin_arm64)
+      ★ DMG 254MB 在 brew 缓存里已存在（Aug 25），没走下载，直接挂载拷贝
+    · 7 个云函数各自 npm install，wx-server-sdk 2.6.3 全部到位
+      （仅本地调试用；部署走 -r 云端装依赖，本地 node_modules 不上传）
+
+  ── 关于那根 USB-C 线 ─────────────────────────────────────────────────────
+  用户特地提到"已 usbc 连接调测手机"。★ 小程序调试根本不走 USB —— 预览和真机
+  调试都是二维码 + 同一 Wi-Fi。这条写进了 AGENTS.md，免得下次又插线。
+
+[20:47] 服务端口：CLI 自助开启走不通，只能人肉点
+
+  cli islogin 报 "IDE service port disabled"，提示里说可以输 y 确认开启。
+  实际试了两条路都失败：
+    · printf 'y\n' | cli islogin          → 提示根本没出现，直接报错退出
+    · script -q /dev/null 伪 TTY          → 同样，提示未出现
+
+  找配置文件也无果：~/Library/Application Support/微信开发者工具/ 下
+  grep servicePort / securitySetting 全空，设置应该落在 Local Storage 的
+  leveldb 里。★ 到此停手 —— 靠逆向 leveldb 去翻一个安全开关，代价和风险都
+  不对等，让用户在 GUI 点三下就完了。
+
+  教训：能力边界要早说。花在硬啃上的时间不如一句"这步得你点"。
+
+[20:52] 用户开完端口，CLI 全链路打通
+
+    · 监听 127.0.0.1:28445，islogin → {"login":true}
+    · cloud env list 首次报 code 31「缺失参数 project / appid」—— 是我漏了
+      --project。补上后确认账号下唯一环境 cloud1-d5gy6021b6ac347c2，
+      与 app.js 里写的一致
+    · 7 个云函数全量部署，success 全 true
+      ★ 一个预判错误：我先前断言 getArticleDetail "大概率还没部署过"，实际
+      云端已存在（旧机器传过），7 个函数走的全是 update 而非 create
+    · cli preview 出二维码，包体 46.4 KB，AppID wx5ec74ce2cdd1b697 权限正常
+
+[21:05] 公开仓库里的硬编码密钥 —— 重构比改历史更划算
+
+  用户确认 wusir-eth/WuWeBlog 是 PUBLIC（gh repo view: visibility PUBLIC，
+  pushedAt 2026-07-19）。commit 3c395e8 里躺着两个常量：
+
+      const ADMIN_CODE = '123456'
+      const ADMIN_TOKEN = 'wwb-admin-token-2026'
+
+  ── 原设计的问题 ─────────────────────────────────────────────────────────
+  ADMIN_TOKEN 在 publish / listArticles / manageCategory / removeArticle /
+  verifyAdmin 里各写一份，鉴权就是 `event.token !== ADMIN_TOKEN` 比字符串。
+  也就是说：token 永不过期、拿到就能删文章、想吊销得改 5 处代码重新部署。
+  访问码 123456 更是几秒能试出来，且 verifyAdmin 无失败次数限制。
+
+  ── 改法：openid 白名单，彻底删掉共享密钥 ─────────────────────────────────
+    · verifyAdmin 验证通过 → 把 cloud.getWXContext().OPENID 写入 admins 集合
+      （集合不存在时 db.createCollection 兜底，已存在会抛错，catch 掉）
+    · 另外 4 个函数改成查 admins 判权，ADMIN_TOKEN 5 处常量全部删除
+    · admin.js 里 6 处 `token: auth.getToken()` 全部摘掉；auth.js 重写，
+      本地只留一个纯 UI 用的标记，伪造它拿不到任何权限
+    · 访问码改为 环境变量 ADMIN_CODE > config.local.json，两者都缺或仍是占位值
+      时一律拒绝 —— ★ 不存在弱默认值这条是关键，否则等于换个地方藏 123456
+
+  ★★ 所以公开历史不用改。filter-repo + 强推会打乱所有 clone，而重构之后：
+  wwb-admin-token-2026 没有任何代码再接受它；123456 只有被设成 ADMIN_CODE
+  才生效。泄露的值已经是废值。
+
+  ── 顺手清掉的三处 ───────────────────────────────────────────────────────
+    · getArticleDetail 里三行 console.log 打印完整 event + 返回值里的 debug 字段
+    · app.wxss 补 .loading（detail.wxml 引用了但全项目没定义，真机上是左上角
+      一行裸文字）
+    · security-rules.json 补 admins 集合，读写全 false
+
+  ── 一次假绿灯 ───────────────────────────────────────────────────────────
+  ★ 提交前扫暂存区密钥，我写的正则用了 grep 不支持的 (?!...) 前瞻，grep 报
+  "invalid syntax" 非零退出 → 走进 else 分支打印了"暂存区无密钥 ✅"。
+  这个 ✅ 是假的。换成逐串 grep 重扫才是真的：命中的全是删除行（-）和文档说明
+  文字，无新增密钥。
+
+  教训：检查脚本自身失败时不能落到"通过"分支。凡是 `cmd && 通过 || 失败` 的写法，
+  都要先确认 cmd 的非零退出只可能来自"没找到"，而不是它自己崩了。
+
+[21:13] 引入 WuAWSMail 的规范体系
+
+  新建 AGENTS.md / CONTRIBUTING.md / logs/。Node/AWS/SQLite 那部分没有照搬，
+  留下的是可迁移的骨架：Audit → Doc-sync → Log → Deploy → Push 序列、
+  叙事体日志、以及"文档必须描述当前实现而非最初计划"。
+
+  红线一节换成本项目实际踩过的坑：组件 property 不能叫 id（真机恒为空）、
+  客户端直查详情会被安全规则挡、真机 bindtap 触发两次、鉴权按 openid、
+  访问码不进仓库。
+
+[21:23] 补齐 WuAWSMail 那套文档体系与协同角色
+
+  用户要求把 ARCHITECTURE / CONTRIBUTING / DEPLOYMENT / HANDBOOK 四份加上，
+  外加 .agent 子目录的 subagent。照着 WuAWSMail 与 WuAndroidAWSMail 的既有体例写：
+  ARCHITECTURE 讲"为什么"，HANDBOOK 讲"照着做"，DEPLOYMENT 讲部署与排障，
+  CONTRIBUTING 讲标准。
+
+  ── subagent 落在哪 ─────────────────────────────────────────────────────
+  WuAWSMail 的 .agent/ 是纯文档 + scripts/agents.js（靠 npm run agents 打印）。
+  但 WuWeBlog 根本没有 package.json，照搬那套没有意义。★ 检查其它项目发现
+  MathBlog / WuClass / WuGame 等已经用 .claude/agents/*.md 的原生格式了 ——
+  那才是能直接唤起的形式。所以做成两份并存：
+    · .claude/agents/{architect,developer,tester,reviewer,deployer}.md —— 可调用
+    · .agent/{README,TEAM,WORKFLOWS,PROMPTS}.md —— 人类可读
+  并在 CONTRIBUTING 的文档同步表里写明这两者要**双向**同步，免得日后漂开。
+
+  ── 角色约束是照本项目实际填的，不是模板 ──────────────────────────────────
+  每个 agent 的红线都来自今天真实踩到或查证过的东西：Tester 里写了"模拟器过了
+  不算"和 grep 前瞻的坑（就是今天那次假绿灯）；Deployer 里写了服务端口只能 GUI
+  开、上传不等于上线、口令不经手 AI；Reviewer 里写了目录树要用 find 对齐。
+
+  ── 顺手抓到一处真实的文档漂移 ────────────────────────────────────────────
+  ★ 按新写的 doc-sync 规则自查 README，发现目录结构里缺 getArticleDetail、
+  categories/、category/、components/、style/ 五处。追查原因：我先前那次
+  python 替换匹配的是 `├── incViews`，而文件里实际是 `└── incViews`，
+  用的又是无 assert 的 .replace() —— **静默 no-op，我还当它成功了**。
+  按 find 的实际结果重写了整棵树，之后所有替换一律加 assert。
+
+  教训：字符串替换必须校验命中。这是今天第二次栽在"失败被当成成功"上
+  （第一次是 grep 前瞻那个假绿灯），同一类错误的第二层。
+
+── 验收 ─────────────────────────────────────────────────────────────────────
+  · 语法：7 个云函数 + 13 个小程序 JS 全过 node --check；4 个 JSON 全过 json.load
+  · 部署：verifyAdmin / publish / listArticles / manageCategory / removeArticle /
+    getArticleDetail 六个 success: true
+  · git：config.local.json 经 git check-ignore 确认被忽略、未被跟踪
+  · 文档：新增 ARCHITECTURE / DEPLOYMENT / HANDBOOK / CONTRIBUTING / AGENTS
+    五份 + .agent/ 四份 + .claude/agents/ 五个角色；README 目录树按 find 实测重写；
+    CONTRIBUTING 同步表已覆盖全部新文档
+  · 未验：真机全链路。★ 访问码尚未设置（config.local.json 仍是占位值
+    PUT-YOUR-CODE-HERE，verifyAdmin 会拒绝所有验证），需用户自行填入后重新
+    部署 verifyAdmin，才能验证管理端登录 → 发文 → 详情页这条路径
+
+── 状态 ─────────────────────────────────────────────────────────────────────
+  分支 harden-admin-auth，未合并 master，未推送，未 cli upload。
+下一步:
+  1. 用户填 config.local.json 的 adminCode（口令不经手 AI）
+  2. 重新部署 verifyAdmin
+  3. 真机验证管理端全链路
+  4. 合并 master → cli upload → mp.weixin.qq.com 提交审核
