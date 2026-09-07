@@ -1,0 +1,9 @@
+{
+  "name": "seedData",
+  "version": "1.0.0",
+  "description": "一次性灌入初始内容，用完即删",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

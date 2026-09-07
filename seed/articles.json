@@ -11,12 +11,8 @@
     "coverImage": "",
     "status": "published",
     "views": 0,
-    "createTime": {
-      "$date": "2026-01-01T00:00:00.000Z"
-    },
-    "updateTime": {
-      "$date": "2026-01-01T00:00:00.000Z"
-    }
+    "createTime": "2026-01-01T00:00:00.000Z",
+    "updateTime": "2026-01-01T00:00:00.000Z"
   },
   {
     "_id": "art-pronunciacion-sh-y-ll",
@@ -30,12 +26,8 @@
     "coverImage": "",
     "status": "published",
     "views": 0,
-    "createTime": {
-      "$date": "2026-01-01T04:01:00.000Z"
-    },
-    "updateTime": {
-      "$date": "2026-01-01T04:01:00.000Z"
-    }
+    "createTime": "2026-01-01T04:01:00.000Z",
+    "updateTime": "2026-01-01T04:01:00.000Z"
   },
   {
     "_id": "art-cultura-argentina",
@@ -49,12 +41,8 @@
     "coverImage": "",
     "status": "published",
     "views": 0,
-    "createTime": {
-      "$date": "2026-01-01T14:02:00.000Z"
-    },
-    "updateTime": {
-      "$date": "2026-01-01T14:02:00.000Z"
-    }
+    "createTime": "2026-01-01T14:02:00.000Z",
+    "updateTime": "2026-01-01T14:02:00.000Z"
   },
   {
     "_id": "art-efemeride-24m-memoria",
@@ -68,12 +56,8 @@
     "coverImage": "",
     "status": "published",
     "views": 0,
-    "createTime": {
-      "$date": "2026-01-01T17:03:00.000Z"
-    },
-    "updateTime": {
-      "$date": "2026-01-01T17:03:00.000Z"
-    }
+    "createTime": "2026-01-01T17:03:00.000Z",
+    "updateTime": "2026-01-01T17:03:00.000Z"
   },
   {
     "_id": "art-efemeride-2a-malvinas",
@@ -87,12 +71,8 @@
     "coverImage": "",
     "status": "published",
     "views": 0,
-    "createTime": {
-      "$date": "2026-01-01T18:04:00.000Z"
-    },
-    "updateTime": {
-      "$date": "2026-01-01T18:04:00.000Z"
-    }
+    "createTime": "2026-01-01T18:04:00.000Z",
+    "updateTime": "2026-01-01T18:04:00.000Z"
   },
   {
     "_id": "art-efemeride-25m-revolucion",
@@ -106,12 +86,8 @@
     "coverImage": "",
     "status": "published",
     "views": 0,
-    "createTime": {
-      "$date": "2026-01-01T19:05:00.000Z"
-    },
-    "updateTime": {
-      "$date": "2026-01-01T19:05:00.000Z"
-    }
+    "createTime": "2026-01-01T19:05:00.000Z",
+    "updateTime": "2026-01-01T19:05:00.000Z"
   },
   {
     "_id": "art-efemeride-20j-bandera",
@@ -125,12 +101,8 @@
     "coverImage": "",
     "status": "published",
     "views": 0,
-    "createTime": {
-      "$date": "2026-01-01T20:06:00.000Z"
-    },
-    "updateTime": {
-      "$date": "2026-01-01T20:06:00.000Z"
-    }
+    "createTime": "2026-01-01T20:06:00.000Z",
+    "updateTime": "2026-01-01T20:06:00.000Z"
   },
   {
     "_id": "art-efemeride-9j-independencia",
@@ -144,12 +116,8 @@
     "coverImage": "",
     "status": "published",
     "views": 0,
-    "createTime": {
-      "$date": "2026-01-01T21:07:00.000Z"
-    },
-    "updateTime": {
-      "$date": "2026-01-01T21:07:00.000Z"
-    }
+    "createTime": "2026-01-01T21:07:00.000Z",
+    "updateTime": "2026-01-01T21:07:00.000Z"
   },
   {
     "_id": "art-efemeride-17a-san-martin",
@@ -163,12 +131,8 @@
     "coverImage": "",
     "status": "published",
     "views": 0,
-    "createTime": {
-      "$date": "2026-01-01T22:08:00.000Z"
-    },
-    "updateTime": {
-      "$date": "2026-01-01T22:08:00.000Z"
-    }
+    "createTime": "2026-01-01T22:08:00.000Z",
+    "updateTime": "2026-01-01T22:08:00.000Z"
   },
   {
     "_id": "art-futbol-argentino-mundial",
@@ -182,11 +146,7 @@
     "coverImage": "",
     "status": "published",
     "views": 0,
-    "createTime": {
-      "$date": "2026-07-01T00:09:00.000Z"
-    },
-    "updateTime": {
-      "$date": "2026-07-01T00:09:00.000Z"
-    }
+    "createTime": "2026-07-01T00:09:00.000Z",
+    "updateTime": "2026-07-01T00:09:00.000Z"
   }
 ]

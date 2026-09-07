@@ -56,6 +56,10 @@ WuWeBlog/
 │   ├── manageCategory/         # 分类 CRUD
 │   └── incViews/               # 阅读数自增
 ├── seed/                       # 初始数据（西语课堂·阿根廷 10 篇）
+│   ├── articles.json           #   文章源，人类可读
+│   ├── categories.json         #   分类源
+│   ├── convert.py              #   从 WuClass 重新生成
+│   └── seedData-oneoff/        #   灌库用一次性云函数（默认不部署）
 ├── logs/                       # 开发日报（YYYY-MM-DD.log）
 ├── .agent/                     # 协同开发角色说明（人类可读）
 ├── .claude/agents/             # 可调用的 subagent 定义
