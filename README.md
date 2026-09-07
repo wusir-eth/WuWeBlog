@@ -55,6 +55,7 @@ WuWeBlog/
 │   ├── removeArticle/          # 删除文章
 │   ├── manageCategory/         # 分类 CRUD
 │   └── incViews/               # 阅读数自增
+├── seed/                       # 初始数据（西语课堂·阿根廷 10 篇）
 ├── logs/                       # 开发日报（YYYY-MM-DD.log）
 ├── .agent/                     # 协同开发角色说明（人类可读）
 ├── .claude/agents/             # 可调用的 subagent 定义
