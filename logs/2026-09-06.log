@@ -126,6 +126,19 @@
   教训：字符串替换必须校验命中。这是今天第二次栽在"失败被当成成功"上
   （第一次是 grep 前瞻那个假绿灯），同一类错误的第二层。
 
+[21:42] 真机验证通过，上传 1.0.2
+
+    · 用户填入访问码（11 位，含非数字，非占位值、非历史泄露的 123456），
+      verifyAdmin 重新部署，filesCount 3→5 证实 config.local.json 随函数上传
+    · 真机全链路验过：博主入口登录 → 管理端列表 → 发文 → 详情页 → tap 节流
+      → 分类增删改，全部正常。★ 详情页这条是今天的核心修复，真机通过即说明
+      getArticleDetail 绕安全规则与 articleId 改名都生效了
+    · 合并 harden-admin-auth → master（--no-ff）
+    · cli upload -v 1.0.2，包体 46.2 KB
+
+  ★ 上传只产生后台的开发版本。提交审核与发布只能在 mp.weixin.qq.com 网页端操作，
+    CLI 无对应命令，发布还需管理员扫码确认 —— 这两步交回用户。
+
 ── 验收 ─────────────────────────────────────────────────────────────────────
   · 语法：7 个云函数 + 13 个小程序 JS 全过 node --check；4 个 JSON 全过 json.load
   · 部署：verifyAdmin / publish / listArticles / manageCategory / removeArticle /
@@ -139,9 +152,7 @@
     部署 verifyAdmin，才能验证管理端登录 → 发文 → 详情页这条路径
 
 ── 状态 ─────────────────────────────────────────────────────────────────────
-  分支 harden-admin-auth，未合并 master，未推送，未 cli upload。
+  已合并 master 并推送；云函数 7 个全部为最新；开发版本 1.0.2 已上传。
 下一步:
-  1. 用户填 config.local.json 的 adminCode（口令不经手 AI）
-  2. 重新部署 verifyAdmin
-  3. 真机验证管理端全链路
-  4. 合并 master → cli upload → mp.weixin.qq.com 提交审核
+  1. 用户在 mp.weixin.qq.com → 版本管理 → 开发版本 → 提交审核
+  2. 审核通过后点发布（需管理员扫码）
